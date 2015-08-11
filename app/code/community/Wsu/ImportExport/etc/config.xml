@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wsu_ImportExport>
+            <version>0.1.0</version>
+        </Wsu_ImportExport>
+    </modules>
+    <global>
+        <models>
+            <wsu_importexport>
+                <class>Wsu_ImportExport_Model</class>
+                <resourceModel>wsu_importexport_resource</resourceModel>
+            </wsu_importexport>
+        </models>
+        <resources>
+            <wsu_importexport_setup>
+                <setup>
+                    <module>Wsu_ImportExport</module>
+                    <class>Wsu_ImportExport_Model_Resource_Setup</class>
+                </setup>
+            </wsu_importexport_setup>
+        </resources>
+        <importexport>
+            <import_entities>
+                <catalog_category translate="label">
+                    <model_token>wsu_importexport/import_entity_category</model_token>
+                    <label>Categories</label>
+                </catalog_category>
+            </import_entities>
+            <export_entities>
+                <catalog_category translate="label">
+                    <model_token>wsu_importexport/export_entity_category</model_token>
+                    <label>Categories</label>
+                </catalog_category>
+            </export_entities>
+        </importexport>
+    </global>
+</config>

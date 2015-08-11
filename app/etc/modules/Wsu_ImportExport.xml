@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wsu_ImportExport>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_ImportExport />
+            </depends>
+        </Wsu_ImportExport>
+    </modules>
+</config>
