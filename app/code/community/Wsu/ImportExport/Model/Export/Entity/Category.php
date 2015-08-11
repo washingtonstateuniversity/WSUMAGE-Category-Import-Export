@@ -107,6 +107,7 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 	 * @return string
 	 */
 	public function export() {
+		
 		//Execution time may be very long
 		set_time_limit(0);
 
@@ -143,7 +144,7 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 			$limitEntities = $minEntitiesLimit;
 		}
 		$offsetEntities = 0;
-
+		
 		while (true) {
 			++$offsetEntities;
 
@@ -173,7 +174,7 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 				 */
 				foreach ($collection as $itemId => $item) { // go through all categories
 					$rowIsEmpty = true; // row is empty by default
-
+					
 					foreach ($validAttrCodes as &$attrCode) { // go through all valid attribute codes
 						$attrValue = $item->getData($attrCode);
 
@@ -206,10 +207,15 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 					if ($rowIsEmpty) { // remove empty rows
 						unset($dataRows[$itemId][$storeId]);
 					} else {
-						$attrSetId = $item->getAttributeSetId();
-						$dataRows[$itemId][$storeId][self::COL_STORE] = $storeCode;
-						$dataRows[$itemId][$storeId][self::COL_ATTR_SET] = $this->_attrSetIdToName[$attrSetId];
-
+						$attrSetId = $item->getEntityTypeId();//$item->getAttributeSetId();
+						if(isset($this->_attrSetIdToName[$attrSetId])){
+							$dataRows[$itemId][$storeId][self::COL_STORE] = $storeCode;
+							$dataRows[$itemId][$storeId][self::COL_ATTR_SET] = $this->_attrSetIdToName[$attrSetId];
+						}else{
+							var_dump($item);
+							var_dump($attrSetId);
+							var_dump($this->_attrSetIdToName);die("here");
+						}
 						if ($defaultStoreId == $storeId) {
 							$rowWebsites[$itemId] = $item->getWebsites();
 						}
@@ -260,9 +266,10 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 				}
 
 
-				$additionalRowsCount = max(
+				/*$additionalRowsCount = max(
 					count($rowWebsites[$entityId])
-				);
+				);*/
+				$additionalRowsCount = count($rowWebsites[$entityId]);
 				if (!empty($rowMultiselects[$entityId])) {
 					foreach ($rowMultiselects[$entityId] as $attributes) {
 						$additionalRowsCount = max($additionalRowsCount, count($attributes));
@@ -289,6 +296,7 @@ class Wsu_ImportExport_Model_Export_Entity_Category extends Mage_ImportExport_Mo
 				}
 			}
 		}
+		
 		return $writer->getContents();
 	}
 
